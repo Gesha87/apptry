@@ -8,12 +8,28 @@ use common\models\Build;
 use common\models\Crash;
 use common\models\CrashSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class CrashController extends Controller
 {
+	public function behaviors()
+	{
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+		];
+	}
+
 	public function actionIndex()
 	{
 		$searchModel = new CrashSearch();
