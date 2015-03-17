@@ -26,7 +26,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
 			'data' => null,
 			'error' => [
 				'code' => $response->statusCode,
-				'message' => $response->statusText,
+				'message' => $exception->getMessage(),
 			]
 		];
 		$response->format = Response::FORMAT_JSON;
