@@ -24,18 +24,11 @@ echo GridView::widget([
 		['attribute' => 'version', 'label' => Yii::t('app', 'Build'), 'format' => 'html', 'value' => function($model) {
 			return "<img class=app-icon src={$model->app->icon}><span class=build-version>".$model->version.'</span>';
 		}],
-		/*['attribute' => 'hash', 'format' => 'html', 'value' => function($model) {
-			return $model->build ? Html::a(
-				$model->build->version,
-				'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->build->id.'/app.plist', 'https'),
-				['class' => 'btn btn-success']
-			) : null;
-		}],*/
 		['class' => 'yii\grid\ActionColumn', 'template' => '{download}', 'buttons' => [
 			'download' => function ($url, $model, $key) {
 				return Html::a(
 					'Download',
-					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https'),
+					'itms-services://?action=download-manifest&url='.urlencode(\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https')),
 					['class' => 'btn btn-success']
 				);
 			}
