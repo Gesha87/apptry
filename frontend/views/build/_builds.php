@@ -28,7 +28,7 @@ echo GridView::widget([
 			'download' => function ($url, $model, $key) {
 				return Html::a(
 					'Download',
-					'itms-services://?action=download-manifest&url='.urlencode(\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https')),
+					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https'),
 					['class' => 'btn btn-success']
 				);
 			}

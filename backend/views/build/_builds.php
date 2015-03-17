@@ -30,6 +30,7 @@ echo GridView::widget([
 		['attribute' => 'count_crashes', 'label' => Yii::t('app', 'Crashes'), 'format' => 'raw', 'value' => function($model) {
 			return Html::a($model->count_crashes, \yii\helpers\Url::toRoute(['crash/index', 'CrashSearch[build_id]' => $model->id]), ['data-pjax' => 0]);
 		}],
+		['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
 	],
 ]);
 

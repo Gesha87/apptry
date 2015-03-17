@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['attribute' => 'latest_build', 'format' => 'html', 'value' => function($model) {
 				return $model->build ? Html::a($model->build->version, \yii\helpers\Url::toRoute(['build/index', 'app_id' => $model->id])) : null;
 			}],
+			['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'],
         ],
     ]); ?>
 

@@ -100,6 +100,9 @@ class ApiController extends Controller
 		if (!$count) {
 			throw new BadRequestHttpException("Couldn't get uuids");
 		}
+		if (!$ipa) {
+			throw new BadRequestHttpException("ipa link can not be blank");
+		}
 		$transaction = Yii::$app->db->beginTransaction();
 		$build = new Build();
 		$attributes['Build'] = $_POST;
