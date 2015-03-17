@@ -217,7 +217,7 @@ PLIST;
 						$linesMini = array_map(function($v) { return preg_replace('/^\d+/', '', trim($v)); }, $linesMini);
 						$addresses = implode(' ', $addressMatches[1]);
 						if ($hash) {
-							$output = ['разсимболикейтили'];//$this->symbolicate($hash, $architecture, $loadAddress, $addresses);
+							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses);
 							if ($output && is_array($output)) {
 								foreach ($output as $i => $line) {
 									$address = @$addressMatches[1][$i];
