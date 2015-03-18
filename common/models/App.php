@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $product_name
  * @property string $icon
  * @property string $bundle_identifier
  * @property string $last_update
@@ -24,7 +25,7 @@ class App extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'bundle_identifier'], 'required'],
+            [['name', 'product_name', 'bundle_identifier'], 'required'],
             [['last_update'], 'safe'],
             [['latest_build'], 'integer'],
             [['name', 'bundle_identifier'], 'string', 'max' => 255],
@@ -37,6 +38,7 @@ class App extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', '#'),
             'name' => Yii::t('app', 'Name'),
+			'product_name' => Yii::t('app', 'Product Name'),
             'icon' => Yii::t('app', 'Icon'),
             'bundle_identifier' => Yii::t('app', 'Bundle Identifier'),
             'last_update' => Yii::t('app', 'Last Updated'),

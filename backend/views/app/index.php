@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['attribute' => 'name', 'label' => Yii::t('app', 'App'), 'format' => 'html', 'value' => function($model) {
 				return "<img class=app-icon src=$model->icon><span class=app-name>".$model->name.'</span><br><span class=app-bundle>'.$model->bundle_identifier.'<span>';
 			}],
+			'product_name',
 			['attribute' => 'last_update', 'format' => 'html', 'value' => function($model) {
 				return Html::tag('span', '', ['class' => 'glyphicon glyphicon-time']).'&nbsp;'.$model->last_update;
 			}],
