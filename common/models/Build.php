@@ -30,7 +30,7 @@ class Build extends \yii\db\ActiveRecord
 	{
 		if ($this->inner_version && $this->visible_version) {
 			$version = $this->visible_version.' ('.$this->inner_version.')';
-			$count = Build::find()->where('version LIKE :version')->addParams([':version' => $version.'%'])->count();
+			$count = Build::find()->where('version LIKE :version AND app_id = :app')->addParams([':version' => $version.'%', ':app' => $this->app_id])->count();
 			$this->version = $this->visible_version.' ('.$this->inner_version.')'.($count ? (' #' . ($count + 1)) : '');
 		}
 	}
