@@ -209,7 +209,7 @@ PLIST;
 					$architecture = $matches[2];
 					$uuid = $matches[3];
 					$hash = Yii::$app->redis->hget('uuid.to.hash', $uuid);
-					$build = Build::findOne(['hash' => $hash]);
+					$build = Build::find()->with('app')->where(['hash' => $hash])->one();
 					if ($build) {
 						$buildId = $build->id;
 						$appId = $build->app_id;
@@ -220,7 +220,7 @@ PLIST;
 						$linesMini = array_map(function($v) { return preg_replace('/^\d+/', '', trim($v)); }, $linesMini);
 						$addresses = implode(' ', $addressMatches[1]);
 						if ($hash) {
-							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses);
+							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
 							if ($output && is_array($output)) {
 								foreach ($output as $i => $line) {
 									$address = @$addressMatches[1][$i];
@@ -279,7 +279,7 @@ PLIST;
 		}
 	}
 
-	protected function symbolicate($hash, $architecture, $loadAddress, $addresses)
+	protected function symbolicate($hash, $architecture, $loadAddress, $addresses, $productName)
 	{
 		$headers = array(
 			'Content-Type: application/x-www-form-urlencoded'
@@ -289,6 +289,7 @@ PLIST;
 			'load_address' => $loadAddress,
 			'addresses' => $addresses,
 			'architecture' => $architecture,
+			'product_name' => $productName
 		);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, Yii::$app->params['atosUrl']);
