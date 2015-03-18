@@ -104,7 +104,13 @@ class ApiController extends Controller
 			throw new BadRequestHttpException("ipa link can not be blank");
 		}
 		$transaction = Yii::$app->db->beginTransaction();
+		$app = App::findOne(['bundle_identifier' => Yii::$app->request->post('bundle_identifier')]);
 		$build = new Build();
+		if (!$app) {
+			$app = new App();
+		} else {
+			$build->app_id = $app->id;
+		}
 		$attributes['Build'] = $_POST;
 		if ($build->load($attributes) && $build->save()) {
 			//
@@ -116,10 +122,6 @@ class ApiController extends Controller
 				$message = reset($errors);
 			}
 			throw new BadRequestHttpException($message);
-		}
-		$app = App::findOne(['bundle_identifier' => Yii::$app->request->post('bundle_identifier')]);
-		if (!$app) {
-			$app = new App();
 		}
 		$app->latest_build = $build->id;
 		$attributes['App'] = $_POST;
