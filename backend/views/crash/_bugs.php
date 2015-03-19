@@ -32,8 +32,8 @@ echo \yii\grid\GridView::widget([
 		['attribute' => 'stack_trace_mini', 'label' => Yii::t('app', 'Info'), 'format' => 'raw', 'value' => function($model) {
 			return Html::a(Html::tag('pre', $model->stack_trace_mini, [
 				'class' => 'stack-trace-mini',
-				'data-toggle' => 'tooltip',
-				'title' => $model->stack_trace_mini,
+				//'data-toggle' => 'tooltip',
+				//'title' => $model->stack_trace_mini,
 			]), Url::toRoute(['crash/view', 'hash' => $model->hash_mini]), ['data-pjax' => 0]);
 		}],
 		['attribute' => 'app_version', 'label' => Yii::t('app', 'Version'), 'format' => 'text', 'value' => function($model) {

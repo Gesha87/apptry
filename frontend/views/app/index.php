@@ -24,11 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					['class' => 'app-link']);
 			}],
 			['attribute' => 'latest_build', 'format' => 'raw', 'value' => function($model) {
+				$time = strtotime($model->last_update) * 1000;
 				return $model->build ? Html::a(
 					$model->build->version,
 					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->build->id.'/app.plist', 'https'),
 					['class' => 'btn btn-success']
-				) : null;
+				)."<br><span class=\"timestamp\" data-timestamp=\"$time\"></span>" : null;
 			}],
         ],
     ]); ?>

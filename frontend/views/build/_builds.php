@@ -26,11 +26,12 @@ echo GridView::widget([
 		}],
 		['class' => 'yii\grid\ActionColumn', 'template' => '{download}', 'buttons' => [
 			'download' => function ($url, $model, $key) {
+				$time = strtotime($model->added_date) * 1000;
 				return Html::a(
 					'Download',
 					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https'),
 					['class' => 'btn btn-success']
-				);
+				)."<br><span class=\"timestamp\" data-timestamp=\"$time\"></span>";
 			}
 		]]
 	],
