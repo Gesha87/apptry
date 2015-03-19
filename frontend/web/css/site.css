@@ -97,19 +97,19 @@ a.desc:after {
 
 #apps-grid-view .app-icon {
 	float: left;
-	height: 50px;
-	width: 50px;
+	height: 38px;
+	width: 38px;
 }
 
 #apps-grid-view .app-name {
 	float: left;
-	margin-left: 10px;
+	margin-left: 5px;
 	font-weight: bold;
 }
 
 #apps-grid-view .app-bundle {
 	float: left;
-	margin-left: 10px;
+	margin-left: 5px;
 	font-size: small;
 	font-style: italic;
 	color: #808080;
