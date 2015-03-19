@@ -4,7 +4,7 @@ $(function() {
 		$('span.timestamp').each(function() {
 			var $this = $(this);
 			var date = new Date($this.data('timestamp'));
-			$this.html(date.format('d.m H:i'));
+			$this.html(date.format('d.m.y H:i'));
 		});
 	}
 	initTimestamps();
