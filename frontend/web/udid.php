@@ -1,7 +1,3 @@
 <?php
-$plist = simplexml_load_file('php://input');
-$keys = $plist->xpath('/dict/key');
-$values = $plist->xpath('/dict/string');
-foreach ($keys as $i => $key) {
-	echo (string)$key . ':' . (string)($values[$i]);
-}
+$data = file_get_contents('php://input');
+header('Location: http://apptry.camlyapp.com/result.php?data='.rawurldecode($data));
