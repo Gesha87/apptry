@@ -2,8 +2,6 @@ AddDefaultCharset UTF-8
 
 RewriteEngine On
 
-Redirect udid.php?q http://app-try.ru/site/udid
-
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
