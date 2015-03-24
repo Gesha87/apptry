@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "77c467a01d4716265176475af2f2bd35",
+    "hash": "b002bf6751670e358b6d87992f435559",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -533,6 +533,50 @@
                 "yii2"
             ],
             "time": "2014-10-08 14:16:58"
+        },
+        {
+            "name": "rodneyrehm/plist",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rodneyrehm/CFPropertyList.git",
+                "reference": "2ea0483806c989eb0518a767fa29a111bb29cb67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rodneyrehm/CFPropertyList/zipball/2ea0483806c989eb0518a767fa29a111bb29cb67",
+                "reference": "2ea0483806c989eb0518a767fa29a111bb29cb67",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "CFPropertyList": "classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Kruse",
+                    "email": "cjk@wwwtech.de"
+                },
+                {
+                    "name": "Rodney Rehm",
+                    "email": "mail+github@rodneyrehm.de"
+                }
+            ],
+            "description": "Library for reading and writing Apple's CFPropertyList (plist) files in XML as well as binary format.",
+            "homepage": "https://github.com/rodneyrehm/CFPropertyList",
+            "keywords": [
+                "plist"
+            ],
+            "time": "2015-01-28 23:18:19"
         },
         {
             "name": "yiisoft/yii2",
@@ -1167,7 +1211,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "rodneyrehm/plist": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
