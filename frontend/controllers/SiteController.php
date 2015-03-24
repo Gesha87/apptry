@@ -42,6 +42,6 @@ class SiteController extends Controller
 			$properties = $plist->toArray();
 		} catch (Exception $ex) {}
 
-		$this->render('result', ['properties' => $properties]);
+		return $this->render('result', ['properties' => $properties]);
 	}
 }
