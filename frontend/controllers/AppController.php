@@ -21,7 +21,7 @@ class AppController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => App::find()->with('build'),
+            'query' => App::find()->with('build')->orderBy('last_update DESC'),
 			'sort' => false,
         ]);
 
