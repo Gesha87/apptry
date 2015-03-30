@@ -182,6 +182,11 @@ PLIST;
 		$dir = Yii::getAlias('@webroot').'/plists/'.$build->id;
 		mkdir($dir);
 		file_put_contents($dir.'/app.plist', $plist);
+		Yii::$app->mailer->compose('newBuild', ['build' => $build])
+			->setFrom('build@apptry.com')
+			->setTo(Yii::$app->params['emails'])
+			->setSubject('New Build')
+			->send();
 		Yii::$app->response->data['data'] = ['status' => true];
 	}
 

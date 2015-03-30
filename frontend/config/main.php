@@ -40,6 +40,17 @@ return [
 		'errorHandler' => [
 			'errorAction' => 'site/error',
 		],
+		'mailer' => [
+			'class' => 'yii\swiftmailer\Mailer',
+			'transport' => [
+				'class' => 'Swift_SmtpTransport',
+				'host' => 'smtp.sendgrid.com',
+				'username' => 'TagBrand',
+				'password' => 'sendGridTagBrand7',
+				'port' => '587',
+				'encryption' => 'tls',
+			],
+		]
     ],
     'params' => $params,
 ];

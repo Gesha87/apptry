@@ -13,7 +13,8 @@
         "cakebake/yii2-bootstrap-select": "*",
         "kartik-v/yii2-date-range": "*",
         "miloschuman/yii2-highcharts-widget": "*",
-        "rodneyrehm/plist": "dev-master"
+        "rodneyrehm/plist": "dev-master",
+        "yiisoft/yii2-swiftmailer": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
