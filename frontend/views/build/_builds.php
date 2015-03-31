@@ -26,7 +26,8 @@ echo GridView::widget([
 		}],
 		['class' => 'yii\grid\ActionColumn', 'template' => '{download}', 'buttons' => [
 			'download' => function ($url, $model, $key) {
-				$time = strtotime($model->added_date) * 1000;
+				$date = str_replace(' ', 'T', $model->added_date) . '+02:00';
+				$time = strtotime($date) * 1000;
 				return Html::a(
 					'Download',
 					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->id.'/app.plist', 'https'),
