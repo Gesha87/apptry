@@ -24,7 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					['class' => 'app-link']);
 			}],
 			['attribute' => 'latest_build', 'format' => 'raw', 'value' => function($model) {
-				$time = strtotime($model->last_update) * 1000;
+				$date = str_replace(' ', 'T', $model->last_update) . '+02:00';
+				$time = strtotime($date) * 1000;
 				return $model->build ? Html::a(
 					$model->build->version,
 					'itms-services://?action=download-manifest&url='.\yii\helpers\Url::to('/plists/'.$model->build->id.'/app.plist', 'https'),
