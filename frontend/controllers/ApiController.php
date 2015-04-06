@@ -162,6 +162,14 @@ class ApiController extends Controller
                     <key>url</key>
                     <string>$ipa</string>
                 </dict>
+                <dict>
+                    <key>kind</key>
+                    <string>display-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>$app->icon</string>
+                </dict>
             </array>
             <key>metadata</key>
             <dict>
