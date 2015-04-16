@@ -26,7 +26,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'testers', 'deleteTester'],
+                        'actions' => ['logout', 'index', 'testers', 'delete-tester'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
