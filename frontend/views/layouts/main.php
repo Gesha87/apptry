@@ -34,6 +34,7 @@ AppAsset::register($this);
             ]);
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/app/index']],
+				['label' => 'UDID', 'url' => ['/site/get-udid']],
                 ['label' => 'About', 'url' => ['/site/about']],
             ];
             echo Nav::widget([

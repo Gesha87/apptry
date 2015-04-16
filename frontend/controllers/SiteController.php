@@ -34,6 +34,11 @@ class SiteController extends Controller
 		$this->redirect(['site/result', 'data' => $xml], 301);
 	}
 
+	public function actionGetUdid()
+	{
+		return $this->render('udid');
+	}
+
 	public  function actionResult()
 	{
 		$properties = [];

@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 /* @var $testers array */
 
 $this->title = 'Testers';
+$this->params['breadcrumbs'][] = $this->title;
 
 $models = [];
 foreach ($testers as $i => $attributes) {
