@@ -60,7 +60,7 @@ class SiteController extends Controller
 
 	public function actionTesters()
 	{
-		$testers = Yii::$app->redis->hgetall('apptry:testers');
+		$testers = Yii::$app->redis->hgetall('apptry:tester');
 
 		return $this->render('testers', ['testers' => $testers]);
 	}
