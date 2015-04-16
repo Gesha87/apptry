@@ -69,7 +69,7 @@ class SiteController extends Controller
 	{
 		$udid = Yii::$app->request->getQueryParam('id');
 		if ($udid) {
-			Yii::$app->redis->hrem('apptry:tester', $udid);
+			Yii::$app->redis->hdel('apptry:tester', $udid);
 		}
 	}
 
