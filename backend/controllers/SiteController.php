@@ -65,6 +65,14 @@ class SiteController extends Controller
 		return $this->render('testers', ['testers' => $testers]);
 	}
 
+	public function actionDeleteTester()
+	{
+		$udid = Yii::$app->request->getQueryParam('id');
+		if ($udid) {
+			Yii::$app->redis->hrem('apptry:tester', $udid);
+		}
+	}
+
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {

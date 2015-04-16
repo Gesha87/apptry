@@ -1,4 +1,5 @@
 $(function() {
+	$('[data-toggle="tooltip"]').tooltip();
 	$(document).on('change', 'input[type=checkbox].resolve', function() {
 		var $this = $(this);
 		var params = {
