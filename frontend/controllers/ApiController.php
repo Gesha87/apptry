@@ -215,7 +215,7 @@ PLIST;
 					$model = $this->modelNameForModelIdentifier[$model] . ' (' . $model . ')';
 				}
 				$systemVersion = (string)$crash->systemversion;
-				$miniLog = '';
+				$miniLog = ' Empty';
 				preg_match('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?'.$appName.'\s+(.+)\s+<([0-9a-f]+)>/', $log, $matches);
 				//$log = substr($log, 0, strpos($log, 'Binary Images:'));
 				$appId = $buildId = null;
@@ -229,15 +229,16 @@ PLIST;
 						$buildId = $build->id;
 						$appId = $build->app_id;
 					}
-					preg_match('/Thread \d+ Crashed:(.*)Thread 2 crashed /is', $log, $crashedMatches);
+					preg_match('/Thread \d+ Crashed:(.*)Thread \d+ crashed /is', $log, $crashedMatches);
 					$crashed = $crashedMatches ? $crashedMatches[1] : '';
+					var_dump($crashed);
 					$count = preg_match_all('/\n\d+\s+'.$appName.'+\s+(0x[0-9a-f]+)\s+.+/', $crashed, $addressMatches);
 					if ($count) {
 						$linesMini = $addressMatches[0];
 						$linesMini = array_map(function($v) { return preg_replace('/^\d+/', '', trim($v)); }, $linesMini);
 						$addresses = implode(' ', $addressMatches[1]);
 						if ($hash) {
-							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
+							$output = '';//$this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
 							if ($output && is_array($output)) {
 								foreach ($output as $i => $line) {
 									$address = @$addressMatches[1][$i];
@@ -251,7 +252,7 @@ PLIST;
 							Yii::error("Could not find conformity uuid ($uuid) to hash");
 						}
 						$miniLog = implode("\n", $linesMini);
-						$miniLog = preg_replace(['/[\t\p{Zs}]+/', '/0x[0-9a-f]+/'], [' ', 'addr'], $miniLog);
+						$miniLog = preg_replace(['/0x[0-9a-f]+/', "/$appName/", '/[\t\p{Zs}]+/'], ['', '', ' '], $miniLog);
 					}
 				} else {
 					Yii::error("Could not find $appName in Binary Images");
