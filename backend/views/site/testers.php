@@ -6,6 +6,8 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $testers array */
 
+$this->title = 'Testers';
+
 $models = [];
 foreach ($testers as $i => $attributes) {
 	if ($i % 2 === 0) continue;
@@ -40,7 +42,7 @@ echo GridView::widget([
 			]);
 		}],
 		['class' => 'yii\grid\ActionColumn', 'template' => '{delete}', 'urlCreator' => function($action, $model) {
-			return \yii\helpers\Url::toRoute(['site/deleteTester', 'id' => $model['UDID']]);
+			return \yii\helpers\Url::toRoute(['site/delete-tester', 'id' => $model['UDID']]);
 		}],
 	],
 ]);
