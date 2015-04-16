@@ -26,7 +26,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'testers'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -57,6 +57,13 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
+
+	public function actionTesters()
+	{
+		$testers = Yii::$app->redis->hgetall('apptry:testers');
+
+		return $this->render('testers', ['testers' => $testers]);
+	}
 
     public function actionLogin()
     {

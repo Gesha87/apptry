@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use CFPropertyList\CFPropertyList;
 use Exception;
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 
 /**
@@ -41,6 +42,14 @@ class SiteController extends Controller
 			$plist->parse($_GET['data']);
 			$properties = $plist->toArray();
 		} catch (Exception $ex) {}
+		if ($properties) {
+			$new = Yii::$app->redis->hset('apptry:tester', $properties['UDID'], Json::encode($properties));
+			$new AND Yii::$app->mailer->compose('newTester', ['properties' => $properties])
+				->setFrom('build@apptry.com')
+				->setTo(Yii::$app->params['emails'])
+				->setSubject('New Tester')
+				->send();
+		}
 
 		return $this->render('result', ['properties' => $properties]);
 	}
