@@ -229,9 +229,8 @@ PLIST;
 						$buildId = $build->id;
 						$appId = $build->app_id;
 					}
-					preg_match('/Thread \d+ Crashed:(.*)Thread \d+ crashed /is', $log, $crashedMatches);
+					preg_match('/Thread \d+ Crashed:(.*?)Thread \d+/is', $log, $crashedMatches);
 					$crashed = $crashedMatches ? $crashedMatches[1] : '';
-					var_dump($crashed);
 					$count = preg_match_all('/\n\d+\s+'.$appName.'+\s+(0x[0-9a-f]+)\s+.+/', $crashed, $addressMatches);
 					if ($count) {
 						$linesMini = $addressMatches[0];
