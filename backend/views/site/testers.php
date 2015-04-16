@@ -26,6 +26,7 @@ $dataProvider = new \yii\data\ArrayDataProvider([
 echo GridView::widget([
 	'id' => 'testers-grid-view',
 	'dataProvider' => $dataProvider,
+	'layout' => "<h4>Testers</h4>\n{items}",
 	'columns' => [
 		['attribute' => 'UDID', 'label' => 'UDID', 'format' => 'raw', 'value' => function($model) {
 			$title = '';
