@@ -71,6 +71,8 @@ class SiteController extends Controller
 		if ($udid) {
 			Yii::$app->redis->hdel('apptry:tester', $udid);
 		}
+
+		return $this->redirect(Yii::$app->request->getReferrer());
 	}
 
     public function actionLogin()
