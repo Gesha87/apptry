@@ -139,3 +139,13 @@ a.desc:after {
 td a:hover {
 	text-decoration: none;
 }
+
+.tooltip-inner {
+	text-align: left;
+	white-space: pre-wrap;
+	max-width: 1140px;
+}
+
+.tester-udid {
+	cursor: default;
+}

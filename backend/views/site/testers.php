@@ -32,7 +32,8 @@ echo GridView::widget([
 			foreach ($model as $attr => $value) {
 				$title .= "$attr: $value\n";
 			}
-			return Html::tag('pre', $model['UDID'], [
+			return Html::tag('span', $model['UDID'], [
+				'class' => 'tester-udid',
 				'data-toggle' => 'tooltip',
 				'title' => $title,
 			]);
