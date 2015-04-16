@@ -27,10 +27,14 @@ echo GridView::widget([
 	'id' => 'testers-grid-view',
 	'dataProvider' => $dataProvider,
 	'columns' => [
-		['attribute' => 'UDID', 'label' => 'UDID', 'value' => function($model) {
+		['attribute' => 'UDID', 'label' => 'UDID', 'format' => 'raw', 'value' => function($model) {
+			$title = '';
+			foreach ($model as $attr => $value) {
+				$title .= "$attr: $value\n";
+			}
 			return Html::tag('pre', $model['UDID'], [
 				'data-toggle' => 'tooltip',
-				'title' => $model['stm'],
+				'title' => $title,
 			]);
 		}],
 		['class' => 'yii\grid\ActionColumn', 'template' => '{delete}', 'urlCreator' => function($action, $model) {
