@@ -217,7 +217,6 @@ PLIST;
 				$systemVersion = (string)$crash->systemversion;
 				$miniLog = ' Empty';
 				preg_match('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?'.$appName.'\s+(.+)\s+<([0-9a-f]+)>/', $log, $matches);
-				//$log = substr($log, 0, strpos($log, 'Binary Images:'));
 				$appId = $buildId = null;
 				if ($matches) {
 					$loadAddress = $matches[1];
@@ -237,7 +236,7 @@ PLIST;
 						$linesMini = array_map(function($v) { return preg_replace('/^\d+/', '', trim($v)); }, $linesMini);
 						$addresses = implode(' ', $addressMatches[1]);
 						if ($hash) {
-							$output = '';//$this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
+							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
 							if ($output && is_array($output)) {
 								foreach ($output as $i => $line) {
 									$address = @$addressMatches[1][$i];
