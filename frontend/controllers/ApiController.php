@@ -241,7 +241,7 @@ PLIST;
 								foreach ($output as $i => $line) {
 									$address = @$addressMatches[1][$i];
 									if ($address && strcmp($address, $line)) {
-										$log = preg_replace('/(\n\d+\s+'.$appName.'+\s+'.$address.'\s+).+/', '$1' . $line, $log, 1);
+										$log = preg_replace('/(\n\d+\s+'.$appName.'+\s+'.$address.'\s+).+/', '$1' . $line, $log);
 										$linesMini[$i] = preg_replace('/('.$address.'\s+).+/', '$1' . $line, $linesMini[$i], 1);
 									}
 								}
@@ -250,7 +250,7 @@ PLIST;
 							Yii::error("Could not find conformity uuid ($uuid) to hash");
 						}
 						$miniLog = implode("\n", $linesMini);
-						$miniLog = preg_replace(['/0x[0-9a-f]+/', "/$appName/", '/[\t\p{Zs}]+/'], ['', '', ' '], $miniLog);
+						$miniLog = preg_replace(["/$appName\\s+0x[0-9a-f]+/", '/[\t\p{Zs}]+/'], ['', ' '], $miniLog);
 					}
 				} else {
 					Yii::error("Could not find $appName in Binary Images");
@@ -275,9 +275,9 @@ PLIST;
 					'device' => $model,
 					'system_version' => $systemVersion
 				];
-				$crash = new Crash();
-				$crash->setAttributes($attributes);
-				$crash->save(false);
+				$crashModel = new Crash();
+				$crashModel->setAttributes($attributes);
+				$crashModel->save(false);
 
 				if ($buildId) {
 					Build::updateAllCounters(['count_crashes' => 1], ['id' => $buildId]);
