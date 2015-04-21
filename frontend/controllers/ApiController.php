@@ -219,7 +219,6 @@ PLIST;
 				preg_match('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?'.$appName.'\s+(.+)\s+<([0-9a-f]+)>/', $log, $matches);
 				$appId = $buildId = null;
 				if ($matches) {
-					$loadAddress = $matches[1];
 					$architecture = $matches[2];
 					$uuid = $matches[3];
 					$hash = Yii::$app->redis->hget('uuid.to.hash', $uuid);
@@ -228,29 +227,46 @@ PLIST;
 						$buildId = $build->id;
 						$appId = $build->app_id;
 					}
+					$binaryImageAddresses = [];
+					$countBinaryImages = preg_match_all('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?(\S+)\s+(.+?)\s+/', $log, $binaryImagesMatches);
+					if ($countBinaryImages) {
+						foreach ($binaryImagesMatches[1] as $i => $imageLoadAddress) {
+							$binaryImageAddresses[$binaryImagesMatches[2][$i]] = $imageLoadAddress;
+						}
+					}
 					preg_match('/Thread \d+ Crashed:(.*?)Thread \d+/is', $log, $crashedMatches);
 					$crashed = $crashedMatches ? $crashedMatches[1] : '';
-					$count = preg_match_all('/\n\d+\s+'.$appName.'+\s+(0x[0-9a-f]+)\s+.+/', $crashed, $addressMatches);
+					$count = preg_match_all('/\n\d+\s+(\S+)+\s+(0x[0-9a-f]+)\s+.+/', $crashed, $addressMatches);
+					$symbolicate = [];
 					if ($count) {
-						$linesMini = $addressMatches[0];
-						$linesMini = array_map(function($v) { return preg_replace('/^\d+/', '', trim($v)); }, $linesMini);
-						$addresses = implode(' ', $addressMatches[1]);
+						$linesMini = [];
+						foreach($addressMatches[1] as $i => $binaryImage) {
+							if (isset($binaryImageAddresses[$binaryImage])) {
+								$symbolicate[$binaryImageAddresses[$binaryImage]][] = $addressMatches[2][$i];
+							}
+							if ($binaryImage == $appName) {
+								$linesMini[] = $addressMatches[0][$i];
+							}
+						}
+						$linesMini = array_map(function($v) { return trim($v); }, $linesMini);
+						$miniLog = implode("\n", $linesMini);
 						if ($hash) {
-							$output = $this->symbolicate($hash, $architecture, $loadAddress, $addresses, @$build->app->product_name);
-							if ($output && is_array($output)) {
-								foreach ($output as $i => $line) {
-									$address = @$addressMatches[1][$i];
-									if ($address && strcmp($address, $line)) {
-										$log = preg_replace('/(\n\d+\s+'.$appName.'+\s+'.$address.'\s+).+/', '$1' . $line, $log);
-										$linesMini[$i] = preg_replace('/('.$address.'\s+).+/', '$1' . $line, $linesMini[$i], 1);
+							foreach ($symbolicate as $loadAddress => $addresses) {
+								$output = $this->symbolicate($hash, $architecture, $loadAddress, implode(' ', $addresses), @$build->app->product_name);
+								if ($output && is_array($output)) {
+									foreach ($output as $i => $line) {
+										$address = @$addresses[$i];
+										if ($address && strcmp($address, $line)) {
+											$log = preg_replace('/(\n\d+\s+\S+\s+'.$address.'\s+).+/', '$1' . $line, $log);
+											$miniLog = preg_replace('/(\d+\s+\S+\s+'.$address.'\s+).+/', '$1' . $line, $miniLog, 1);
+										}
 									}
 								}
 							}
 						} else {
 							Yii::error("Could not find conformity uuid ($uuid) to hash");
 						}
-						$miniLog = implode("\n", $linesMini);
-						$miniLog = preg_replace(["/$appName\\s+0x[0-9a-f]+/", '/[\t\p{Zs}]+/'], ['', ' '], $miniLog);
+						$miniLog = preg_replace(['/\d+\s+\S+\s+0x[0-9a-f]+\s+/', '/[\t\p{Zs}]+/'], ['', ' '], $miniLog);
 					}
 				} else {
 					Yii::error("Could not find $appName in Binary Images");
