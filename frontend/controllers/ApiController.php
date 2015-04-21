@@ -249,7 +249,7 @@ PLIST;
 							}
 						}
 						$linesMini = array_map(function($v) { return trim($v); }, $linesMini);
-						$miniLog = implode("\n", $linesMini);
+						$linesMini and $miniLog = implode("\n", $linesMini);
 						if ($hash) {
 							foreach ($symbolicate as $loadAddress => $addresses) {
 								$output = $this->symbolicate($hash, $architecture, $loadAddress, implode(' ', $addresses), @$build->app->product_name);
