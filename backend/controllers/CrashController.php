@@ -85,7 +85,7 @@ class CrashController extends Controller
 		$dataProvider = new ActiveDataProvider([
 			'query' => Crash::find()
 				->where(['hash_mini' => $hash])
-				->orderBy('user_crash_date DESC'),
+				->orderBy('id DESC'),
 			'sort' => false,
 			'pagination' => ['pageSize' => 10],
 		]);
