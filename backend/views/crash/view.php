@@ -17,6 +17,7 @@ echo Html::beginTag('pre');
 foreach ($lines as $line) {
 	$line = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', $line);
 	if (preg_match('/\d+\s+'.$packageName.'+\s+(0x[0-9a-f]+)\s/', $line)) $line = '<span class="alert-success">'.$line.'</span>';
+	if (preg_match('/Thread \d+ crashed:/i', $line)) $line = '<a name="crashed">'.$line.'</a>';
 	echo $line.'<br>';
 }
 echo Html::endTag('pre');
