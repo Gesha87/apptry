@@ -89,7 +89,7 @@ class ApiController extends Controller
 		$hash = Yii::$app->request->post('hash');
 		if ($image = UploadedFile::getInstanceByName('image')) {
 			$ext = $image->getExtension();
-			$name = Yii::$app->request->post('name');
+			$name = Yii::$app->request->post('bundle_identifier');
 			if (!$image->saveAs(Yii::getAlias('@webroot').'/img/'.$name.'.'.$ext)) {
 				Yii::error('Couldn\'t save icon');
 			} else {
