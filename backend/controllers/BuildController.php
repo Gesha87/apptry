@@ -40,6 +40,7 @@ class BuildController extends Controller
     /**
      * Lists all Build models.
      * @return mixed
+	 * @throws NotFoundHttpException
      */
     public function actionIndex()
     {
@@ -119,7 +120,15 @@ class BuildController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+		$build = $this->findModel($id);
+		if ($build) {
+			$appId = $build->app_id;
+			$build->delete();
+			$latestBuild = Build::find()->where(['app_id' => $appId])->orderBy('id DESC')->one();
+			if ($latestBuild) {
+				App::updateAll(['latest_build' => $latestBuild->id], ['id' => $appId]);
+			}
+		}
 
         return $this->redirect(Yii::$app->request->getReferrer());
     }
