@@ -241,11 +241,11 @@ PLIST;
 					if ($count) {
 						$linesMini = [];
 						foreach($addressMatches[1] as $i => $binaryImage) {
-							if (isset($binaryImageAddresses[$binaryImage])) {
-								$symbolicate[$binaryImageAddresses[$binaryImage]][] = $addressMatches[2][$i];
-							}
 							if ($binaryImage == $appName) {
 								$linesMini[] = $addressMatches[0][$i];
+								if (isset($binaryImageAddresses[$binaryImage])) {
+									$symbolicate[$binaryImageAddresses[$binaryImage]][] = $addressMatches[2][$i];
+								}
 							}
 						}
 						$linesMini = array_map(function($v) { return trim($v); }, $linesMini);
