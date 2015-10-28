@@ -23,6 +23,13 @@ return [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
+				[
+					'class' => 'common\log\AccessFileTarget',
+					'logFile' => '@runtime/logs/access.log',
+					'levels' => ['info'],
+					'categories' => ['access'],
+					'logVars' => [],
+				],
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],

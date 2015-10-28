@@ -70,6 +70,7 @@ class ApiController extends Controller
 	public function init()
 	{
 		parent::init();
+		Yii::info('', 'access');
 		$errorHandler = new ErrorHandler();
 		$errorHandler->register();
 		Yii::$app->response->format = Response::FORMAT_JSON;
