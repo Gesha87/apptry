@@ -14,6 +14,10 @@ echo \yii\grid\GridView::widget([
 	'tableOptions' => [
 		'class' => 'table table-bordered table-condensed',
 	],
+	'pager' => [
+		'firstPageLabel' => '&laquo;&laquo;',
+		'lastPageLabel' => '&raquo;&raquo;',
+	],
 	'columns' => [
 		['attribute' => 'app_version', 'label' => Yii::t('app', 'Build'), 'format' => 'text', 'value' => function($model) {
 			return str_replace(' ', '', $model->app_version);

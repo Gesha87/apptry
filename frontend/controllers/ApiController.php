@@ -215,6 +215,8 @@ PLIST;
 					$model = $this->modelNameForModelIdentifier[$model] . ' (' . $model . ')';
 				}
 				$systemVersion = (string)$crash->systemversion;
+				preg_match('/OS Version:\s+.+\((.+)\)/', $log, $matches);
+				$systemVersionCode = @$matches[1];
 				$miniLog = ' Empty';
 				preg_match('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?'.$appName.'\s+(.+)\s+<([0-9a-f]+)>/', $log, $matches);
 				$appId = $buildId = null;
@@ -228,10 +230,10 @@ PLIST;
 						$appId = $build->app_id;
 					}
 					$binaryImageAddresses = [];
-					$countBinaryImages = preg_match_all('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?(\S+)\s+(.+?)\s+/', $log, $binaryImagesMatches);
+					$countBinaryImages = preg_match_all('/(0x[0-9a-f]+)\s+-\s+0x[0-9a-f]+\s+\+?(\S+)\s+\S+\s+(<[0-9a-f]+>)?\s+(.+)/', $log, $binaryImagesMatches);
 					if ($countBinaryImages) {
 						foreach ($binaryImagesMatches[1] as $i => $imageLoadAddress) {
-							$binaryImageAddresses[$binaryImagesMatches[2][$i]] = $imageLoadAddress;
+							$binaryImageAddresses[$binaryImagesMatches[2][$i]] = [$imageLoadAddress, $binaryImagesMatches[4][$i]];
 						}
 					}
 					preg_match('/Thread \d+ Crashed:(.*?)Thread \d+/is', $log, $crashedMatches);
@@ -241,18 +243,28 @@ PLIST;
 					if ($count) {
 						$linesMini = [];
 						foreach($addressMatches[1] as $i => $binaryImage) {
+							if (isset($binaryImageAddresses[$binaryImage])) {
+								$symbolicate[$binaryImageAddresses[$binaryImage][0]]['addresses'][] = $addressMatches[2][$i];
+								$symbolicate[$binaryImageAddresses[$binaryImage][0]]['path'] = $binaryImageAddresses[$binaryImage][1];
+								$symbolicate[$binaryImageAddresses[$binaryImage][0]]['name'] = $binaryImage;
+							}
 							if ($binaryImage == $appName) {
 								$linesMini[] = $addressMatches[0][$i];
-								if (isset($binaryImageAddresses[$binaryImage])) {
-									$symbolicate[$binaryImageAddresses[$binaryImage]][] = $addressMatches[2][$i];
-								}
 							}
 						}
 						$linesMini = array_map(function($v) { return trim($v); }, $linesMini);
 						$linesMini and $miniLog = implode("\n", $linesMini);
 						if ($hash) {
-							foreach ($symbolicate as $loadAddress => $addresses) {
-								$output = $this->symbolicate($hash, $architecture, $loadAddress, implode(' ', $addresses), @$build->app->product_name);
+							foreach ($symbolicate as $loadAddress => $info) {
+								$addresses = $info['addresses'];
+								$path = $info['path'];
+								$name = $info['name'];
+								$lib = true;
+								if ($name == $appName) {
+									$lib = false;
+									$path = $appName;
+								}
+								$output = $this->symbolicate($hash, $architecture, $loadAddress, implode(' ', $addresses), $path, $lib, $systemVersionCode);
 								if ($output && is_array($output)) {
 									foreach ($output as $i => $line) {
 										$address = @$addresses[$i];
@@ -311,18 +323,20 @@ PLIST;
 		}
 	}
 
-	protected function symbolicate($hash, $architecture, $loadAddress, $addresses, $productName)
+	protected function symbolicate($hash, $architecture, $loadAddress, $addresses, $path, $lib, $systemVersionCode)
 	{
-		$headers = array(
+		$headers = [
 			'Content-Type: application/x-www-form-urlencoded'
-		);
-		$fields = array(
-			'hash' => $hash,
+		];
+		$fields = [
+			'hash'         => $hash,
 			'load_address' => $loadAddress,
-			'addresses' => $addresses,
+			'addresses'    => $addresses,
 			'architecture' => $architecture,
-			'product_name' => $productName
-		);
+			'path'         => $path,
+			'lib'          => (int)$lib,
+			'version'      => $systemVersionCode,
+		];
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, Yii::$app->params['atosUrl']);
 		curl_setopt($ch, CURLOPT_POST, true);

@@ -14,6 +14,7 @@ use Yii;
  * @property string $version
  * @property string $plist
  * @property integer $count_crashes
+ * @property string $comment
  */
 class Build extends \yii\db\ActiveRecord
 {
@@ -53,6 +54,7 @@ class Build extends \yii\db\ActiveRecord
 			[['app_id'], 'integer'],
             [['visible_version', 'inner_version', 'hash'], 'required'],
             [['plist'], 'string', 'max' => 512],
+			[['comment'], 'string', 'max' => 1024],
             [['hash', 'version'], 'string', 'max' => 255],
         ];
     }

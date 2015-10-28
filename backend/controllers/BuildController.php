@@ -123,6 +123,7 @@ class BuildController extends Controller
 		$build = $this->findModel($id);
 		if ($build) {
 			$appId = $build->app_id;
+			file_get_contents('http://82.146.41.219/deleteBuild.php?hash=' . urlencode($build->hash));
 			$build->delete();
 			$latestBuild = Build::find()->where(['app_id' => $appId])->orderBy('id DESC')->one();
 			if ($latestBuild) {
@@ -132,6 +133,17 @@ class BuildController extends Controller
 
         return $this->redirect(Yii::$app->request->getReferrer());
     }
+
+	public function actionSaveComment()
+	{
+		$build = $this->findModel(Yii::$app->request->post('buildId'));
+		if ($build) {
+			$build->load(Yii::$app->request->post());
+			$build->update(false, ['comment']);
+		}
+
+		return $this->redirect(Yii::$app->request->getReferrer());
+	}
 
     /**
      * Finds the Build model based on its primary key value.
