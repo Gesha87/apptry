@@ -23,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
 					\yii\helpers\Url::toRoute(['build/index', 'app_id' => $model->id]),
 					['class' => 'app-link']);
 			}],
+			['attribute' => 'comment', 'label' => Yii::t('app', 'Comment'), 'format' => 'html', 'value' => function($model) {
+				return $model->build ? nl2br($model->build->comment) : null;
+			}],
 			['attribute' => 'latest_build', 'format' => 'raw', 'value' => function($model) {
 				$date = str_replace(' ', 'T', $model->last_update) . '+02:00';
 				$time = strtotime($date) * 1000;

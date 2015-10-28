@@ -24,6 +24,9 @@ echo GridView::widget([
 		['attribute' => 'version', 'label' => Yii::t('app', 'Build'), 'format' => 'html', 'value' => function($model) {
 			return "<img class=app-icon src={$model->app->icon}><span class=build-version>".$model->version.'</span>';
 		}],
+		['attribute' => 'comment', 'label' => Yii::t('app', 'Comment'), 'format' => 'html', 'value' => function($model) {
+			return nl2br($model->comment);
+		}],
 		['class' => 'yii\grid\ActionColumn', 'template' => '{download}', 'buttons' => [
 			'download' => function ($url, $model, $key) {
 				$date = str_replace(' ', 'T', $model->added_date) . '+02:00';
