@@ -280,6 +280,7 @@ PLIST;
 							Yii::error("Could not find conformity uuid ($uuid) to hash");
 						}
 						$miniLog = preg_replace(['/\d+\s+\S+\s+0x[0-9a-f]+\s+/', '/[\t\p{Zs}]+/'], ['', ' '], $miniLog);
+						$miniLog = preg_replace(['/0x[0-9a-f]+\s+\+\s+/'], ['address + '], $miniLog);
 					}
 				} else {
 					Yii::error("Could not find $appName in Binary Images");
