@@ -10,5 +10,5 @@ $this->params['breadcrumbs'][] = ['url' => 'javascript:history.go(-1)', 'label' 
 $this->params['breadcrumbs'][] = $crash->id;
 
 echo Html::beginTag('pre');
-echo $crash->stack_trace;
+echo Html::encode($crash->stack_trace);
 echo Html::endTag('pre');
